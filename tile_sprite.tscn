@@ -1,0 +1,88 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2qaudlv1p43o"]
+
+[ext_resource type="Script" uid="uid://4po8nyik6p56" path="res://tile_sprite.gd" id="1_385rl"]
+
+[sub_resource type="SystemFont" id="SystemFont_tph7k"]
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_tph7k"]
+default_font = SubResource("SystemFont_tph7k")
+default_font_size = 102
+/colors/black = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_un0db"]
+size = Vector2(137, 137)
+
+[sub_resource type="Gradient" id="Gradient_qjhqs"]
+colors = PackedColorArray(0.756083, 0.693539, 0.501275, 1, 0.792723, 0.686399, 0.386808, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_un0db"]
+gradient = SubResource("Gradient_qjhqs")
+fill_from = Vector2(1, 0)
+
+[node name="Tile Sprite" type="Sprite2D"]
+script = ExtResource("1_385rl")
+
+[node name="Value" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+z_index = 1
+anchors_preset = -1
+anchor_left = 49.5
+anchor_top = 48.0
+anchor_right = 62.5
+anchor_bottom = 62.0
+offset_left = -9.5
+offset_top = -22.0
+offset_right = 7.5
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_tph7k")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "1"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_un0db")
+one_way_collision_margin = 0.0
+
+[node name="Tile" type="TextureRect" parent="Area2D/CollisionShape2D"]
+offset_left = -69.5
+offset_top = -70.0
+offset_right = 70.5
+offset_bottom = 70.0
+texture = SubResource("GradientTexture2D_un0db")
+metadata/_edit_use_anchors_ = true
+
+[node name="Letter" type="RichTextLabel" parent="Area2D/CollisionShape2D"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -69.5
+offset_top = -78.0
+offset_right = 69.5
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_tph7k")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+text = "A"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

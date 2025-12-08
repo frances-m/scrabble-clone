@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://1wv1877ickdx"]
+
+[ext_resource type="PackedScene" uid="uid://c0dtwaassli2a" path="res://rack.tscn" id="2_pbdxk"]
+
+[node name="Scrabble" type="Node2D"]
+
+[node name="Rack" parent="." instance=ExtResource("2_pbdxk")]
+position = Vector2(965, 990)

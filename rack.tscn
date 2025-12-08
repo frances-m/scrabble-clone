@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0dtwaassli2a"]
+
+[ext_resource type="Script" uid="uid://ch3lx2en3a8x8" path="res://rack.gd" id="1_l3p0g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_re2um"]
+size = Vector2(2000, 140)
+
+[sub_resource type="Gradient" id="Gradient_ydd72"]
+colors = PackedColorArray(0.137255, 0.0745098, 0, 1, 0.137255, 0.0745098, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tsiik"]
+gradient = SubResource("Gradient_ydd72")
+
+[node name="Rack" type="Node2D"]
+script = ExtResource("1_l3p0g")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_re2um")
+
+[node name="TextureRect" type="TextureRect" parent="Area2D/CollisionShape2D"]
+offset_left = -1000.0
+offset_top = -70.0
+offset_right = 1000.0
+offset_bottom = 70.0
+texture = SubResource("GradientTexture2D_tsiik")
