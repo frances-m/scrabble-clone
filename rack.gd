@@ -2,7 +2,7 @@ extends Node2D
 
 var MAX_TILES: int = 7
 var LETTERS: Array = []
-var TILE_GAP: float = 20.0
+var TILE_GAP: float = 10.0
 
 var tiles: Array = []
 
@@ -33,7 +33,7 @@ func position_tiles() -> void:
 	var global_pos = to_global(%CollisionShape2D.position)
 	
 	var x: float = global_pos.x - tiles_length / 2 + Globals.tile_size / 2
-	var y: float = global_pos.y - 40.0
+	var y: float = global_pos.y - 20.0
 	var tile_position: Vector2 = Vector2(x, y)
 	
 	for tile in tiles:

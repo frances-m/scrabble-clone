@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://ch3lx2en3a8x8" path="res://rack.gd" id="1_l3p0g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_re2um"]
-size = Vector2(1150, 140)
+size = Vector2(500, 60)
 
 [sub_resource type="Gradient" id="Gradient_ydd72"]
 colors = PackedColorArray(0.137255, 0.0745098, 0, 1, 0.137255, 0.0745098, 0, 1)
@@ -21,8 +21,8 @@ unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_re2um")
 
 [node name="TextureRect" type="TextureRect" parent="Area2D/CollisionShape2D"]
-offset_left = -575.0
-offset_top = -70.0
-offset_right = 575.0
-offset_bottom = 70.0
+offset_left = -250.0
+offset_top = -30.0
+offset_right = 250.0
+offset_bottom = 34.0
 texture = SubResource("GradientTexture2D_tsiik")

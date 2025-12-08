@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhu2gin3u5ir7"]
+
+[ext_resource type="Script" uid="uid://by7na5v6sk4yd" path="res://square.gd" id="1_2eeqm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8lkhj"]
+size = Vector2(60, 20)
+
+[node name="Square" type="Node2D"]
+script = ExtResource("1_2eeqm")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Boundaries" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_8lkhj")
+
+[node name="ColorRect" type="ColorRect" parent="Area2D/Boundaries"]
+unique_name_in_owner = true
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = 28.0
+color = Color(0.913622, 0.85979, 0.829106, 1)
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

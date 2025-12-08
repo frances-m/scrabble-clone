@@ -20,7 +20,8 @@ colors = PackedColorArray(0.756083, 0.693539, 0.501275, 1, 0.792723, 0.686399, 0
 gradient = SubResource("Gradient_qjhqs")
 fill_from = Vector2(1, 0)
 
-[node name="Tile Sprite" type="Sprite2D"]
+[node name="Tile" type="Sprite2D"]
+scale = Vector2(0.4, 0.4)
 script = ExtResource("1_385rl")
 
 [node name="Value" type="RichTextLabel" parent="."]
