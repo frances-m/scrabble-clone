@@ -28,6 +28,7 @@ func set_value(value: int) -> void:
 func set_is_moving() -> void:
 	if is_moving && Input.is_action_just_released("left_click"):
 		is_moving = false
+		emit_signal("finished_moving", self, false)
 	
 	if !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
 		is_moving = true
@@ -64,3 +65,5 @@ func _on_area_2d_mouse_entered() -> void:
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_over = false
+
+signal finished_moving(tile: Sprite2D, placed: bool)

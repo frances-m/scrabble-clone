@@ -2,9 +2,7 @@ extends Node2D
 
 var MAX_TILES: int = 7
 var LETTERS: Array = []
-var TILE_GAP: float = 10.0
-@onready var RACK_LENGTH: float = %CollisionShape2D.shape.size.x
-@onready var RACK_HEIGHT: float = %CollisionShape2D.shape.size.y
+var TILE_GAP: float = 20.0
 
 var tiles: Array = []
 
@@ -22,6 +20,8 @@ func draw_tile() -> void:
 	
 	position_tiles()
 	
+	tile.connect("finished_moving", Callable(self, "_on_tile_finished_moving"))
+	
 	add_sibling.call_deferred(tile)
 	
 func position_tiles() -> void:
@@ -36,7 +36,14 @@ func position_tiles() -> void:
 	var y: float = global_pos.y - 40.0
 	var tile_position: Vector2 = Vector2(x, y)
 	
-	
 	for tile in tiles:
 		tile.position = tile_position
 		tile_position.x += Globals.tile_size + TILE_GAP
+
+func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
+	if placed:
+		var idx = tiles.find(tile)
+		tiles.pop_at(idx)
+		tile.disconnect("finished_moving", Callable(self, "_on_tile_finished_moving"))
+		
+	position_tiles()
