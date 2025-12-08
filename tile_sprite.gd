@@ -10,6 +10,8 @@ var is_moving: bool = false
 var mouse_over: bool = false
 var velocity: Vector2 = Vector2(0, 0)
 
+signal finished_moving(tile: Sprite2D, placed: bool)
+
 func _ready() -> void:
 	%Letter.text = LETTER
 	%Value.text = str(VALUE)
@@ -27,10 +29,11 @@ func set_value(value: int) -> void:
 
 func set_is_moving() -> void:
 	if is_moving && Input.is_action_just_released("left_click"):
+		emit_signal("finished_moving", self, !!Globals.selected_tile)
+		Globals.selected_tile = null
 		is_moving = false
-		emit_signal("finished_moving", self, false)
-	
-	if !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
+	elif !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
+		Globals.selected_tile = self
 		is_moving = true
 
 func update_position(delta: float) -> void:
@@ -65,5 +68,3 @@ func _on_area_2d_mouse_entered() -> void:
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_over = false
-
-signal finished_moving(tile: Sprite2D, placed: bool)

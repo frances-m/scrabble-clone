@@ -1,3 +1,4 @@
 extends Node
 
-var tile_size: float = 136.0 * 0.4
+var selected_tile
+var tile_size: float = 54.0

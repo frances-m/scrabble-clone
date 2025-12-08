@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2qaudlv1p43o"]
+[gd_scene load_steps=5 format=3 uid="uid://d2qaudlv1p43o"]
 
 [ext_resource type="Script" uid="uid://4po8nyik6p56" path="res://tile_sprite.gd" id="1_385rl"]
 
@@ -7,21 +7,13 @@ subpixel_positioning = 0
 
 [sub_resource type="Theme" id="Theme_tph7k"]
 default_font = SubResource("SystemFont_tph7k")
-default_font_size = 102
+default_font_size = 36
 /colors/black = Color(0, 0, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_un0db"]
-size = Vector2(137, 137)
-
-[sub_resource type="Gradient" id="Gradient_qjhqs"]
-colors = PackedColorArray(0.756083, 0.693539, 0.501275, 1, 0.792723, 0.686399, 0.386808, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_un0db"]
-gradient = SubResource("Gradient_qjhqs")
-fill_from = Vector2(1, 0)
+size = Vector2(58, 58)
 
 [node name="Tile" type="Sprite2D"]
-scale = Vector2(0.4, 0.4)
 script = ExtResource("1_385rl")
 
 [node name="Value" type="RichTextLabel" parent="."]
@@ -29,19 +21,19 @@ unique_name_in_owner = true
 z_index = 1
 anchors_preset = -1
 anchor_left = 45.5
-anchor_top = 48.0
-anchor_right = 62.5
-anchor_bottom = 62.0
-offset_left = -12.5
-offset_top = -20.0
-offset_right = 4.5
-offset_bottom = 8.0
+anchor_top = 64.0
+anchor_right = 44.5
+anchor_bottom = 53.0
+offset_left = -33.5
+offset_top = -53.0
+offset_right = -16.5
+offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme = SubResource("Theme_tph7k")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 12
 bbcode_enabled = true
 text = "1"
 fit_content = true
@@ -56,23 +48,23 @@ unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_un0db")
 one_way_collision_margin = 0.0
 
-[node name="Tile" type="TextureRect" parent="Area2D/CollisionShape2D"]
-offset_left = -69.5
-offset_top = -70.0
-offset_right = 70.5
-offset_bottom = 70.0
-texture = SubResource("GradientTexture2D_un0db")
-metadata/_edit_use_anchors_ = true
+[node name="ColorRect" type="ColorRect" parent="Area2D/CollisionShape2D"]
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = 28.0
+mouse_filter = 2
+color = Color(0.766932, 0.650453, 0.582913, 1)
 
 [node name="Letter" type="RichTextLabel" parent="Area2D/CollisionShape2D"]
 unique_name_in_owner = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -69.5
-offset_top = -78.0
-offset_right = 69.5
-offset_bottom = 62.0
+offset_left = -28.0
+offset_top = -31.0
+offset_right = 28.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -85,5 +77,8 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
