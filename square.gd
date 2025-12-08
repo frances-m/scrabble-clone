@@ -1,12 +1,12 @@
 extends Node2D
 
 var TYPES: Dictionary = {
-	"BS": { "color": "#000000" },
-	"SS": { "color": "#111111" },
-	"3W": { "color": "#222222" },
-	"2W": { "color": "#333333" },
-	"3L": { "color": "#444444" },
-	"2L": { "color": "#555555" },
+	"BS": { "color": "#fcdbae" },
+	"SS": { "color": "#fcaeae" },
+	"3W": { "color": "#e322e0" },
+	"2W": { "color": "#fcaefb" },
+	"3L": { "color": "#224fe3" },
+	"2L": { "color": "#aecbfc" },
 }
 
 var type: String = "BS"
