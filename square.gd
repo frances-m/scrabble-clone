@@ -15,7 +15,7 @@ var col: int = 0
 var mouse_over: bool = false
 
 func _ready() -> void:
-	set_color(TYPES[type]["color"])
+	set_color()
 
 func _process(_delta: float) -> void:
 	if mouse_over && Input.is_action_just_released("left_click") && Globals.selected_tile:
@@ -28,13 +28,18 @@ func set_grid_position(new_row: int, new_col: int) -> void:
 	row = new_row
 	col = new_col
 
-func set_color(hex: String) -> void:
-	%ColorRect.color = hex
+func set_color(color: Color = get_color()) -> void:
+	%ColorRect.color = color
+
+func get_color() -> Color:
+	return Color.html(TYPES[type]["color"])
 
 func _on_area_2d_mouse_entered() -> void:
 	mouse_over = true
-	set_color("#a83232")
+	var color = get_color().lightened(0.4)
+	set_color(color)
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_over = false
-	set_color(TYPES[type]["color"])
+	set_color()
+	
