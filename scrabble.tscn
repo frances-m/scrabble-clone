@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://1wv1877ickdx"]
+[gd_scene load_steps=5 format=3 uid="uid://1wv1877ickdx"]
 
 [ext_resource type="PackedScene" uid="uid://c0dtwaassli2a" path="res://rack.tscn" id="2_pbdxk"]
 [ext_resource type="PackedScene" uid="uid://cgtso5mntix66" path="res://game_board.tscn" id="2_xtowr"]
 [ext_resource type="PackedScene" uid="uid://ctbn7g46l8ifn" path="res://submit_button.tscn" id="3_pbdxk"]
+[ext_resource type="PackedScene" uid="uid://camdjstu0b8b6" path="res://score.tscn" id="4_4etum"]
 
 [node name="Scrabble" type="Node2D"]
 
@@ -13,4 +14,18 @@ position = Vector2(543, 517)
 position = Vector2(1453, 1008)
 
 [node name="SubmitButton" parent="." instance=ExtResource("3_pbdxk")]
-position = Vector2(1766, 990)
+position = Vector2(1736, 981)
+
+[node name="Player1Score" parent="." instance=ExtResource("4_4etum")]
+offset_left = 1681.0
+offset_top = 37.0
+offset_right = 1681.0
+offset_bottom = 37.0
+metadata/player = 1
+
+[node name="Player2Score" parent="." instance=ExtResource("4_4etum")]
+offset_left = 1681.0
+offset_top = 116.0
+offset_right = 1681.0
+offset_bottom = 116.0
+metadata/player = 2

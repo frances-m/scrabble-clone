@@ -13,17 +13,23 @@ var type: String = "BS"
 var row: int = 0
 var col: int = 0
 var mouse_over: bool = false
+var tile
 
 func _ready() -> void:
 	set_color()
 
 func _process(_delta: float) -> void:
+	place_tile()
+
+func place_tile() -> void:
+	if tile:
+		return
+
 	var selected_tile = Globals.selected_tile
 	if mouse_over && Input.is_action_just_released("left_click") && selected_tile:
 		selected_tile.position = get_parent().position + position
 		selected_tile.placed = true
 		BoardState.place_tile(selected_tile, self)
-		
 
 func set_type(new_type: String) -> void:
 	type = new_type

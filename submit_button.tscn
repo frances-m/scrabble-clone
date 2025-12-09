@@ -6,8 +6,8 @@
 script = ExtResource("1_rftfm")
 
 [node name="Button" type="Button" parent="."]
-offset_right = 25.0
-offset_bottom = 8.0
+offset_right = 137.0
+offset_bottom = 58.0
 text = "Submit"
 
 [connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

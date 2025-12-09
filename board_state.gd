@@ -15,10 +15,12 @@ func place_tile(tile: Sprite2D, square: Node2D) -> void:
 		"col": square.col,
 	})
 	tile.square = square
+	square.tile = tile
 	tile.connect("started_moving", Callable(self, "_remove_from_pending"))
 
 func _remove_from_pending(tile: Sprite2D) -> void:
 	tile.disconnect("started_moving", Callable(self, "_remove_from_pending"))
+	tile.square.tile = null
 	tile.square = null
 	var idx = pending_tiles.find_custom(func(t): return t["tile"] == tile)
 	if idx == -1:

@@ -1,9 +1,13 @@
 extends Node
 
+var first_move: bool = true;
+
 var player1_score: int = 0;
 var player2_score: int = 0;
 
 @onready var WORD_LIST = load_word_list()
+
+signal score_updated(player: int, score: int)
 
 func score(pending_tiles: Array) -> bool:
 	if pending_tiles.size() < 1:
@@ -25,9 +29,16 @@ func score(pending_tiles: Array) -> bool:
 	var has_gap = false
 	var word_multiplier = 1
 	var score_tally = 0
+	var on_starting_square = false;
 	
 	for t in pending_tiles:
 		var tile = t["tile"]
+		
+		# flag if on start square
+		if tile.square.type == "SS":
+			on_starting_square = true
+
+		# calculate score
 		letters.append(tile.get_tile_letter())
 		var tile_value = tile.get_value()
 		if tile.square.get_mult_type() == "word":
@@ -38,6 +49,9 @@ func score(pending_tiles: Array) -> bool:
 	
 	score_tally *= word_multiplier
 	
+	if first_move && !on_starting_square:
+		return false
+	
 	if has_gap:
 		return false
 	
@@ -45,7 +59,16 @@ func score(pending_tiles: Array) -> bool:
 	if !is_valid_word(word):
 		return false
 	
-	print(score_tally)
+	var player = Globals.current_player
+	if player == 1:
+		player1_score += score_tally
+	else:
+		player2_score += score_tally
+	
+	first_move = false
+	
+	emit_signal("score_updated", player, score_tally)
+	
 	return true
 
 func is_valid_word(word: String) -> bool:

@@ -44,10 +44,12 @@ func set_is_moving() -> void:
 	if is_moving && Input.is_action_just_released("left_click"):
 		emit_signal("finished_moving", self, placed)
 		Globals.selected_tile = null
+		z_index = 1
 		is_moving = false
 	elif !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
 		placed = false
 		Globals.selected_tile = self
+		z_index = 2
 		is_moving = true
 		emit_signal("started_moving", self)
 
