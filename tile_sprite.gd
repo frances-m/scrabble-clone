@@ -9,6 +9,7 @@ var TILE_SIZE: float = 0.0
 var is_moving: bool = false
 var mouse_over: bool = false
 var velocity: Vector2 = Vector2(0, 0)
+var placed: bool = false
 
 signal finished_moving(tile: Sprite2D, placed: bool)
 
@@ -29,10 +30,11 @@ func set_value(value: int) -> void:
 
 func set_is_moving() -> void:
 	if is_moving && Input.is_action_just_released("left_click"):
-		emit_signal("finished_moving", self, !!Globals.selected_tile)
+		emit_signal("finished_moving", self, placed)
 		Globals.selected_tile = null
 		is_moving = false
 	elif !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
+		placed = false
 		Globals.selected_tile = self
 		is_moving = true
 

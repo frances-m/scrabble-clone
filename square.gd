@@ -20,6 +20,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if mouse_over && Input.is_action_just_released("left_click") && Globals.selected_tile:
 		Globals.selected_tile.position = get_parent().position + position
+		Globals.selected_tile.placed = true
 
 func set_type(new_type: String) -> void:
 	type = new_type
