@@ -6,6 +6,6 @@ func _ready() -> void:
 func get_player() -> int:
 	return get_meta("player", 0)
 
-func update_score(player: int, score: int) -> void:
-	if get_player() == player:
-		%Label.text = str(score)
+func update_score() -> void:
+	var score = Scorer.player_scores[get_player()]
+	%Label.text = str(score)

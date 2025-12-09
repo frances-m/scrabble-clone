@@ -8,6 +8,9 @@ signal tiles_scored()
 func _ready() -> void:
 	initialize_board()
 
+func get_tile_at(row: int, col: int) -> Sprite2D:
+	return board[row][col]
+
 func place_tile(tile: Sprite2D, square: Node2D) -> void:
 	pending_tiles.append({
 		"tile": tile,
@@ -36,7 +39,7 @@ func score_pending() -> void:
 	for tile in pending_tiles:
 		var row = tile["row"]
 		var col = tile["col"]
-		board[row][col] = tile
+		board[row][col] = tile["tile"]
 		tile["tile"].disconnect("started_moving", Callable(self, "_remove_from_pending"))
 		tile["tile"].scored = true
 	
