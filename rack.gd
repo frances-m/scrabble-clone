@@ -44,7 +44,6 @@ func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
 	if placed:
 		var idx = tiles.find(tile)
 		tiles.pop_at(idx)
-		#tile.disconnect("finished_moving", Callable(self, "_on_tile_finished_moving"))
 	elif tiles.find(tile) == -1 && tiles.size() < MAX_TILES:
 		tiles.append(tile)
 	
