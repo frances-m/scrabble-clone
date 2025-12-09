@@ -4,18 +4,8 @@ var Square = preload("res://square.tscn")
 
 var JSON_PATH: String = "res://squares.json"
 
-# TODO: not currently using this
-var board_squares: Array = []
-
 func _ready() -> void:
-	_setup_grid()
 	_place_squares()
-
-func _setup_grid() -> void:
-	for i in range(0, 15):
-		board_squares.append([])
-		for x in range(0, 15):
-			board_squares[i].append(null)
 
 func _place_squares() -> void:
 	var board_data = _load_board_data()
@@ -36,7 +26,6 @@ func _place_squares() -> void:
 
 func _place_square(type: String, pos: Vector2, row: int, col: int) -> void:
 	var square = Square.instantiate()
-	board_squares[row][col] = square
 	
 	square.position = pos
 	square.set_type(type)

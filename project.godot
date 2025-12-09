@@ -19,6 +19,8 @@ config/icon="res://icon.svg"
 
 TileBag="*res://tile_bag.gd"
 Globals="*res://globals.gd"
+BoardState="*res://board_state.gd"
+Scorer="*res://scorer.gd"
 
 [display]
 

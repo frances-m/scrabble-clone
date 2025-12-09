@@ -10,7 +10,10 @@ var is_moving: bool = false
 var mouse_over: bool = false
 var velocity: Vector2 = Vector2(0, 0)
 var placed: bool = false
+var scored: bool = false
+var square
 
+signal started_moving(tile: Sprite2D)
 signal finished_moving(tile: Sprite2D, placed: bool)
 
 func _ready() -> void:
@@ -28,6 +31,12 @@ func set_tile_letter(letter: String) -> void:
 func set_value(value: int) -> void:
 	VALUE = value
 
+func get_tile_letter() -> String:
+	return LETTER
+
+func get_value() -> int:
+	return VALUE
+
 func set_is_moving() -> void:
 	if is_moving && Input.is_action_just_released("left_click"):
 		emit_signal("finished_moving", self, placed)
@@ -37,9 +46,10 @@ func set_is_moving() -> void:
 		placed = false
 		Globals.selected_tile = self
 		is_moving = true
+		emit_signal("started_moving", self)
 
 func update_position(delta: float) -> void:
-	if !is_moving:
+	if !is_moving || scored:
 		return
 	
 	var global_mouse_pos = get_global_mouse_position()
