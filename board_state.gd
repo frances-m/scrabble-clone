@@ -3,6 +3,8 @@ extends Node
 var board: Array = []
 var pending_tiles: Array = []
 
+signal tiles_scored()
+
 func _ready() -> void:
 	initialize_board()
 
@@ -33,9 +35,11 @@ func score_pending() -> void:
 		var row = tile["row"]
 		var col = tile["col"]
 		board[row][col] = tile
-		tile.scored = true
+		tile["tile"].disconnect("started_moving", Callable(self, "_remove_from_pending"))
+		tile["tile"].scored = true
 	
 	pending_tiles = []
+	emit_signal("tiles_scored")
 
 func initialize_board() -> void:
 	for i in range(0, 15):

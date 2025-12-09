@@ -7,6 +7,7 @@ var TILE_GAP: float = 10.0
 var tiles: Array = []
 
 func _ready() -> void:
+	BoardState.connect("tiles_scored", draw_tiles)
 	draw_tiles()
 
 func draw_tiles() -> void:

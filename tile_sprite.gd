@@ -38,6 +38,9 @@ func get_value() -> int:
 	return VALUE
 
 func set_is_moving() -> void:
+	if scored:
+		return
+	
 	if is_moving && Input.is_action_just_released("left_click"):
 		emit_signal("finished_moving", self, placed)
 		Globals.selected_tile = null
