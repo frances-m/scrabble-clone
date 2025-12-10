@@ -12,69 +12,119 @@ var player_scores: Dictionary = {
 signal score_updated()
 
 func score(pending_tiles: Array) -> bool:
-	if pending_tiles.size() < 1:
-		print("NO TILES")
+	var score_calculator: ScoreCalculator = ScoreCalculator.new(pending_tiles)
+	
+	var errors: Array = score_calculator.get_errors()
+	if errors.size():
+		for error in errors:
+			print(error)
 		return false
 	
-	var compare_row = pending_tiles[0].square.row
-	var compare_col = pending_tiles[0].square.col
+	var word_score = score_calculator.get_score()
+	var player = Globals.current_player
+	player_scores[player] += word_score
 	
-	# TODO: we will get the wrong shared row if there's
-	# only one tile placed above or below existing tiles
-	var share_row = pending_tiles.all(func(tile): return tile.square.row == compare_row)
-	var share_col = pending_tiles.all(func(tile): return tile.square.col == compare_col)
+	emit_signal("score_updated")
+	first_move = false
 	
-	if !share_row && !share_col:
-		print("NO SHARED ROW OR COL")
-		return false
-	
-	var axis = "row" if share_row else "col"
-	pending_tiles.sort_custom(func(a, b): return a.square[axis] > b.square[axis])
-	
-	var letters = []
-	var has_gap = false
-	var touches_existing_tile = false
-	var word_multiplier = 1
-	var score_tally = 0
-	var on_starting_square = false
-	var pos_axis: String = "row" if axis == "col" else "col"
-	var pos: int = 0
-	
-	var first_tile = pending_tiles[0]
-	var first_tile_pos = first_tile.square[pos_axis]
-	for i in range(first_tile_pos - 1, -1, -1):
-		var x = i if pos_axis == "row" else first_tile.square.row
-		var y = i if pos_axis == "col" else first_tile.square.col
-		var existing_tile = BoardState.get_tile_at(x, y)
-		if !existing_tile:
-			break
-		touches_existing_tile = true
-		letters.append(existing_tile.get_tile_letter())
-		score_tally += existing_tile.get_value()
-	
-	
-	for tile in pending_tiles:
-		var tile_pos = tile.square[pos_axis]
-		if pos && tile_pos != pos + 1:
-			for i in range(pos + 1, tile_pos):
-				var x = i if pos_axis == "row" else tile.square.row
-				var y = i if pos_axis == "col" else tile.square.col
-				var scored_tile = BoardState.get_tile_at(x, y)
-				if !scored_tile:
-					has_gap = true
-				else:
-					touches_existing_tile = true
-					letters.append(scored_tile.get_tile_letter())
-					score_tally += scored_tile.get_value()
-		
-		pos = tile_pos
-		
-		# flag if on start square
-		if tile.square.type == "SS":
-			on_starting_square = true
+	return true
 
-		# calculate score
+func load_word_list() -> Array:
+	var path = "res://words.txt"
+	var words = FileAccess.get_file_as_string(path)
+	return words.split("\n")
+
+class ScoreCalculator:
+	var tiles: Array = []
+	var parallel_axis: String = ""
+	
+	#validation flags
+	var has_gap: bool = false
+	var touches_existing_tile: bool = false
+	var on_starting_square: bool = false
+	var errors: Array = []
+	
+	# score 
+	var letters: Array = []
+	var score_tally: int = 0
+	var word_multiplier: int = 1
+
+	func _init(pending_tiles: Array) -> void:
+		tiles = pending_tiles
+		calculate_score()
+	
+	func calculate_score() -> void:
+		validate_length()
+		calculate_word_direction()
+		sort_tiles()
+		score_tiles()
+		validate_word()
+
+	func get_score() -> int:
+		return score_tally * word_multiplier
+	
+	func get_errors() -> Array:
+		return errors
+	
+	func has_errors() -> bool:
+		return errors.size()
+
+	func validate_length() -> void:
+		if tiles.size() < 1:
+			errors.append("NO TILES")
+	
+	func is_vertical() -> bool:
+		return parallel_axis == "col"
+	
+	func is_horizontal() -> bool:
+		return !is_vertical()
+	
+	func perpendicular_axis() -> String:
+		return "row" if parallel_axis == "col" else "col"
+
+	func calculate_word_direction() -> void:
+		if has_errors():
+			return
+
+		var compare_row = tiles[0].square.row
+		var compare_col = tiles[0].square.col
+		
+		# TODO: we will get the wrong shared row if there's
+		# only one tile placed above or below existing tiles
+		var share_row = tiles.all(func(tile): return tile.square.row == compare_row)
+		var share_col = tiles.all(func(tile): return tile.square.col == compare_col)
+		
+		if !share_row && !share_col:
+			errors.append("NO SHARED ROW OR COL")
+		
+		parallel_axis = "row" if share_row else "col"
+	
+	func sort_tiles() -> void:
+		if has_errors():
+			return
+
+		tiles.sort_custom(func(a, b): return a.square[parallel_axis] > b.square[parallel_axis])
+	
+	func score_tiles() -> void:
+		if has_errors():
+			return
+		
+		score_tiles_in_front()
+
+		var last_tile_pos: int = 0
+		for tile in tiles:
+			score_tiles_between(last_tile_pos, tile)
+			score_tile(tile)
+			last_tile_pos = tile.square[perpendicular_axis()]
+			
+			if tile.square.type == "SS":
+				on_starting_square = true
+		
+		score_tiles_behind()
+	
+	func score_tile(tile: Sprite2D) -> void:
 		letters.append(tile.get_tile_letter())
+
 		var tile_value = tile.get_value()
 		if tile.square.get_mult_type() == "word":
 			word_multiplier += tile.square.get_mult()
@@ -82,51 +132,67 @@ func score(pending_tiles: Array) -> bool:
 			tile_value *= tile.square.get_mult()
 		score_tally += tile_value
 	
-	var last_tile = pending_tiles[-1]
-	var last_tile_pos = last_tile.square[pos_axis]
-	for i in range(last_tile_pos + 1, 15, 1):
-		var x = i if pos_axis == "row" else last_tile.square.row
-		var y = i if pos_axis == "col" else last_tile.square.col
-		var existing_tile = BoardState.get_tile_at(x, y)
-		if !existing_tile:
-			break
-		touches_existing_tile = true
-		letters.append(existing_tile.get_tile_letter())
-		score_tally += existing_tile.get_value()
-	
-	score_tally *= word_multiplier
-	
-	if first_move && !on_starting_square:
-		print("FIRST MOVE NEEDS TO BE ON STARTING SQUARE")
-		return false
-	
-	if !first_move && !touches_existing_tile:
-		print("NOT ADJACENT TO ANY EXISTING TILES")
-		return false
-	
-	if has_gap:
-		print("GAP BETWEEN TILES")
-		return false
-	
-	var word = "".join(letters)
-	print(word)
-	if !is_valid_word(word):
-		print("INVALID WORD")
-		return false
-	
-	var player = Globals.current_player
-	player_scores[player] += score_tally
-	
-	emit_signal("score_updated")
-	
-	first_move = false
-	
-	return true
+	func score_tiles_between(last_tile_pos, tile) -> void:
+		var tile_pos = tile.square[perpendicular_axis()]
+		if !last_tile_pos || tile_pos == last_tile_pos + 1:
+			return
 
-func is_valid_word(word: String) -> bool:
-	return WORD_LIST.has(word)
+		for i in range(last_tile_pos + 1, tile_pos):
+			var existing_tile = get_existing_parallel_tile(i, tile.square)
+			if !existing_tile:
+				errors.append("GAP BETWEEN TILES")
+				break
+			else:
+				touches_existing_tile = true
+				letters.append(existing_tile.get_tile_letter())
+				score_tally += existing_tile.get_value()
+	
+	func score_tiles_in_front() -> void:
+		var tile = tiles[0]
+		var tile_pos = tile.square[perpendicular_axis()]
+		var rnge = range(tile_pos - 1, -1, -1)
+		score_tiles_adjacent_to(tile, rnge)
+	
+	func score_tiles_behind() -> void:
+		var tile = tiles[-1]
+		var tile_pos = tile.square[perpendicular_axis()]
+		var rnge = range(tile_pos + 1, 15, 1)
+		score_tiles_adjacent_to(tile, rnge)
+	
+	func score_tiles_adjacent_to(tile: Sprite2D, rnge) -> void:
+		for i in rnge:
+			var existing_tile = get_existing_parallel_tile(i, tile.square)
+			if !existing_tile:
+				break
+			touches_existing_tile = true
+			letters.append(existing_tile.get_tile_letter())
+			score_tally += existing_tile.get_value()
+	
+	func get_existing_parallel_tile(pos: int, tile_pos: Node2D) -> Sprite2D:
+		var row: int = pos if is_vertical() else tile_pos.row
+		var col: int = pos if is_horizontal() else tile_pos.col
+		print("GET")
+		print(row)
+		print(col)
+		return BoardState.get_tile_at(row, col)
+	
+	func validate_word() -> void:
+		if has_errors():
+			return
 
-func load_word_list() -> Array:
-	var path = "res://words.txt"
-	var words = FileAccess.get_file_as_string(path)
-	return words.split("\n")
+		if Scorer.first_move && !on_starting_square:
+			errors.append("FIRST MOVE NEEDS TO BE ON STARTING SQUARE")
+	
+		if !Scorer.first_move && !touches_existing_tile:
+			errors.append("NOT ADJACENT TO ANY EXISTING TILES")
+		
+		if has_gap:
+			errors.append("GAP BETWEEN TILES")
+	
+		var word = "".join(letters)
+		print(word)
+		if !is_valid_word(word):
+			errors.append("INVALID WORD")
+
+	func is_valid_word(word: String) -> bool:
+		return Scorer.WORD_LIST.has(word)
