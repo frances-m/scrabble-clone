@@ -61,7 +61,10 @@ class ScoreCalculator:
 		validate_word()
 
 	func get_score() -> int:
-		return score_tally * word_multiplier
+		var score = score_tally * word_multiplier
+		if tiles.size() == 7:
+			score += 50
+		return score
 	
 	func get_errors() -> Array:
 		return errors
@@ -98,17 +101,17 @@ class ScoreCalculator:
 			errors.append("NO SHARED ROW OR COL")
 		
 		parallel_axis = "row" if share_row else "col"
-	
+
 	func sort_tiles() -> void:
 		if has_errors():
 			return
 
 		tiles.sort_custom(func(a, b): return a.square[parallel_axis] > b.square[parallel_axis])
-	
+
 	func score_tiles() -> void:
 		if has_errors():
 			return
-		
+
 		score_tiles_in_front()
 
 		var last_tile_pos: int = 0
@@ -119,9 +122,9 @@ class ScoreCalculator:
 			
 			if tile.square.type == "SS":
 				on_starting_square = true
-		
+
 		score_tiles_behind()
-	
+
 	func score_tile(tile: Sprite2D) -> void:
 		letters.append(tile.get_tile_letter())
 
