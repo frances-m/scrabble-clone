@@ -171,9 +171,6 @@ class ScoreCalculator:
 	func get_existing_parallel_tile(pos: int, tile_pos: Node2D) -> Sprite2D:
 		var row: int = pos if is_vertical() else tile_pos.row
 		var col: int = pos if is_horizontal() else tile_pos.col
-		print("GET")
-		print(row)
-		print(col)
 		return BoardState.get_tile_at(row, col)
 	
 	func validate_word() -> void:
