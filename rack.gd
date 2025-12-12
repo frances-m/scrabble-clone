@@ -70,13 +70,10 @@ func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
 	position_tiles()
 
 func _recall_tiles() -> void:
-	var placed_tiles = BoardState.pending_tiles
-	BoardState.pending_tiles = []
+	if Globals.current_player != player:
+		return
 
+	var placed_tiles = BoardState.remove_all_from_pending()
 	for tile in placed_tiles:
-		if tile.square:
-			tile.square.tile = null
-		tile.square = null
-		tile.placed = false
 		tiles.append(tile)
-		position_tiles()
+	position_tiles()

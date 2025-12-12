@@ -10,4 +10,4 @@ offset_right = 137.0
 offset_bottom = 58.0
 text = "Recall Tiles"
 
-[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

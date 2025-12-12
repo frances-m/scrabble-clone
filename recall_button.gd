@@ -2,5 +2,5 @@ extends Node2D
 
 signal clicked()
 
-func _on_button_button_up() -> void:
+func _on_button_pressed() -> void:
 	emit_signal("clicked")
