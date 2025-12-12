@@ -11,7 +11,7 @@ var player_scores: Dictionary = {
 
 signal score_updated()
 
-func score(pending_tiles: Array) -> bool:
+func run(pending_tiles: Array) -> bool:
 	var score_calculator: ScoreCalculator = ScoreCalculator.new(pending_tiles)
 	
 	var errors: Array = score_calculator.get_errors()
@@ -105,8 +105,7 @@ class ScoreCalculator:
 	func sort_tiles() -> void:
 		if has_errors():
 			return
-
-		tiles.sort_custom(func(a, b): return a.square[parallel_axis] > b.square[parallel_axis])
+		tiles.sort_custom(func(a, b): return a.square[perpendicular_axis()] < b.square[perpendicular_axis()])
 
 	func score_tiles() -> void:
 		if has_errors():
@@ -114,7 +113,7 @@ class ScoreCalculator:
 
 		score_tiles_in_front()
 
-		var last_tile_pos: int = 0
+		var last_tile_pos: int = -1
 		for tile in tiles:
 			score_tiles_between(last_tile_pos, tile)
 			score_tile(tile)
@@ -137,7 +136,7 @@ class ScoreCalculator:
 	
 	func score_tiles_between(last_tile_pos, tile) -> void:
 		var tile_pos = tile.square[perpendicular_axis()]
-		if !last_tile_pos || tile_pos == last_tile_pos + 1:
+		if last_tile_pos == -1 || tile_pos == last_tile_pos + 1:
 			return
 
 		for i in range(last_tile_pos + 1, tile_pos):
@@ -154,7 +153,7 @@ class ScoreCalculator:
 		var tile = tiles[0]
 		var tile_pos = tile.square[perpendicular_axis()]
 		var rnge = range(tile_pos - 1, -1, -1)
-		score_tiles_adjacent_to(tile, rnge)
+		score_tiles_adjacent_to(tile, rnge, false)
 	
 	func score_tiles_behind() -> void:
 		var tile = tiles[-1]
@@ -162,13 +161,17 @@ class ScoreCalculator:
 		var rnge = range(tile_pos + 1, 15, 1)
 		score_tiles_adjacent_to(tile, rnge)
 	
-	func score_tiles_adjacent_to(tile: Sprite2D, rnge) -> void:
+	func score_tiles_adjacent_to(tile: Sprite2D, rnge, after: bool = true) -> void:
 		for i in rnge:
 			var existing_tile = get_existing_parallel_tile(i, tile.square)
 			if !existing_tile:
 				break
 			touches_existing_tile = true
-			letters.append(existing_tile.get_tile_letter())
+			var letter = existing_tile.get_tile_letter()
+			if after:
+				letters.append(letter)
+			else:
+				letters.push_front(letter)
 			score_tally += existing_tile.get_value()
 	
 	func get_existing_parallel_tile(pos: int, tile_pos: Node2D) -> Sprite2D:

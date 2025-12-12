@@ -6,9 +6,14 @@ var TILE_GAP: float = 10.0
 
 var tiles: Array = []
 
+@onready var player: int = get_meta("player", 0)
+
 func _ready() -> void:
-	BoardState.connect("tiles_scored", draw_tiles)
-	draw_tiles()
+	if player == 1:
+		draw_tiles()
+	else:
+		visible = false
+	BoardState.connect("tiles_scored", Callable(self, "_on_tiles_scored"))
 
 func draw_tiles() -> void:
 	var tiles_to_draw: int = MAX_TILES - tiles.size()
@@ -40,6 +45,14 @@ func position_tiles() -> void:
 	for tile in tiles:
 		tile.position = tile_position
 		tile_position.x += Globals.tile_size + TILE_GAP
+
+func _on_tiles_scored() -> void:
+	var is_player_turn: bool = Globals.current_player == player
+	visible = is_player_turn
+	for tile in tiles:
+		tile.visible = is_player_turn
+	if is_player_turn:
+		draw_tiles()
 
 func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
 	if placed:

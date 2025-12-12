@@ -10,8 +10,13 @@
 [node name="GameBoard" parent="." instance=ExtResource("2_xtowr")]
 position = Vector2(543, 517)
 
-[node name="Rack" parent="." instance=ExtResource("2_pbdxk")]
+[node name="Player1Rack" parent="." instance=ExtResource("2_pbdxk")]
 position = Vector2(1453, 1008)
+metadata/player = 1
+
+[node name="Player2Rack" parent="." instance=ExtResource("2_pbdxk")]
+position = Vector2(1453, 1008)
+metadata/player = 2
 
 [node name="SubmitButton" parent="." instance=ExtResource("3_pbdxk")]
 position = Vector2(1736, 981)

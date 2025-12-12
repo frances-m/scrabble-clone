@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfo5vi3hp77fq"]
+
+[ext_resource type="Script" uid="uid://d1fujuvdw6t4d" path="res://letter_picker.gd" id="1_4k861"]
+
+[node name="LetterPicker" type="Control"]
+z_index = 5
+z_as_relative = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_force_pass_scroll_events = false
+script = ExtResource("1_4k861")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.223529, 0.223529, 0.223529, 0.839216)

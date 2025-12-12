@@ -27,7 +27,7 @@ func _remove_from_pending(tile: Sprite2D) -> void:
 	pending_tiles.pop_at(idx)
 
 func score_pending() -> void:
-	var scored: bool = Scorer.score(pending_tiles)
+	var scored: bool = Scorer.run(pending_tiles)
 	
 	if !scored:
 		return
@@ -40,6 +40,7 @@ func score_pending() -> void:
 		tile.scored = true
 	
 	pending_tiles = []
+	Globals.switch_player()
 	emit_signal("tiles_scored")
 
 func initialize_board() -> void:

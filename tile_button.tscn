@@ -1,0 +1,85 @@
+[gd_scene load_steps=15 format=3 uid="uid://dyq757neavery"]
+
+[ext_resource type="Script" uid="uid://dcgykcqtabpp8" path="res://tile_button.gd" id="1_uktjd"]
+
+[sub_resource type="SystemFont" id="SystemFont_tph7k"]
+subpixel_positioning = 0
+
+[sub_resource type="Theme" id="Theme_tph7k"]
+default_font = SubResource("SystemFont_tph7k")
+default_font_size = 36
+/colors/black = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uktjd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yjrr5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3y7kj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dw4ea"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xe4rf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xu2kn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cmqeu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_t1qo1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y48y0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_htcbq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13obg"]
+
+[node name="TileButton" type="Sprite2D"]
+script = ExtResource("1_uktjd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = 28.0
+mouse_filter = 2
+color = Color(0.766932, 0.650453, 0.582913, 1)
+
+[node name="Letter" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -28.0
+offset_top = -31.0
+offset_right = 28.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_tph7k")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+text = "A"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Button" type="Button" parent="."]
+offset_left = -28.0
+offset_top = -28.0
+offset_right = 28.0
+offset_bottom = 28.0
+mouse_default_cursor_shape = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_uktjd")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_yjrr5")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3y7kj")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_dw4ea")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_xe4rf")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_xu2kn")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_cmqeu")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_t1qo1")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_y48y0")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_htcbq")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_13obg")
+
+[connection signal="button_up" from="Button" to="." method="_on_button_up"]

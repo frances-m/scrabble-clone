@@ -6,6 +6,8 @@ var VALUE: int = 0
 var MAX_SPEED: float = 40.0
 var TILE_SIZE: float = 0.0
 
+var LetterPicker = preload("res://letter_picker.tscn")
+
 var is_moving: bool = false
 var mouse_over: bool = false
 var velocity: Vector2 = Vector2(0, 0)
@@ -17,8 +19,7 @@ signal started_moving(tile: Sprite2D)
 signal finished_moving(tile: Sprite2D, placed: bool)
 
 func _ready() -> void:
-	%Letter.text = LETTER
-	%Value.text = str(VALUE)
+	update_display()
 	TILE_SIZE = %CollisionShape2D.shape.size.x
 
 func _process(delta: float) -> void:
@@ -30,6 +31,12 @@ func set_tile_letter(letter: String) -> void:
 
 func set_value(value: int) -> void:
 	VALUE = value
+	if value == 0:
+		%Value.visible = false
+
+func update_display() -> void:
+	%Letter.text = LETTER
+	%Value.text = str(VALUE)
 
 func get_tile_letter() -> String:
 	return LETTER
@@ -46,6 +53,7 @@ func set_is_moving() -> void:
 		Globals.selected_tile = null
 		z_index = 1
 		is_moving = false
+		_show_letter_selection()
 	elif !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
 		placed = false
 		Globals.selected_tile = self
@@ -79,6 +87,16 @@ func update_position(delta: float) -> void:
 	
 	velocity = direction * speed
 	position += velocity * delta
+
+func _show_letter_selection() -> void:
+	if VALUE != 0 || !placed:
+		return
+	
+	is_moving = false
+	mouse_over = false
+	var letter_picker = LetterPicker.instantiate()
+	letter_picker.initialize(self)
+	add_sibling(letter_picker)
 
 func _on_area_2d_mouse_entered() -> void:
 	mouse_over = true
