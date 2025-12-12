@@ -7,13 +7,18 @@ var TILE_GAP: float = 10.0
 var tiles: Array = []
 
 @onready var player: int = get_meta("player", 0)
+@onready var recall_button: Node2D = get_parent().get_node("%RecallButton")
 
 func _ready() -> void:
 	if player == 1:
 		draw_tiles()
 	else:
 		visible = false
+	_init_listeners()
+
+func _init_listeners() -> void:
 	BoardState.connect("tiles_scored", Callable(self, "_on_tiles_scored"))
+	recall_button.connect("clicked", Callable(self, "_recall_tiles"))
 
 func draw_tiles() -> void:
 	var tiles_to_draw: int = MAX_TILES - tiles.size()
@@ -63,3 +68,15 @@ func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
 		tiles.append(tile)
 	
 	position_tiles()
+
+func _recall_tiles() -> void:
+	var placed_tiles = BoardState.pending_tiles
+	BoardState.pending_tiles = []
+
+	for tile in placed_tiles:
+		if tile.square:
+			tile.square.tile = null
+		tile.square = null
+		tile.placed = false
+		tiles.append(tile)
+		position_tiles()
