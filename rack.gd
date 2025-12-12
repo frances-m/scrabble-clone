@@ -57,7 +57,8 @@ func _on_tiles_scored() -> void:
 func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
 	if placed:
 		var idx = tiles.find(tile)
-		tiles.pop_at(idx)
+		if idx != -1:
+			tiles.pop_at(idx)
 	elif tiles.find(tile) == -1 && tiles.size() < MAX_TILES:
 		tiles.append(tile)
 	
