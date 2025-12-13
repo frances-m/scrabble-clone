@@ -9,7 +9,6 @@ var TILE_SIZE: float = 0.0
 var LetterPicker = preload("res://letter_picker.tscn")
 
 var is_moving: bool = false
-var mouse_over: bool = false
 var velocity: Vector2 = Vector2(0, 0)
 var placed: bool = false
 var scored: bool = false
@@ -44,22 +43,42 @@ func get_tile_letter() -> String:
 func get_value() -> int:
 	return VALUE
 
+func get_bounds() -> Dictionary:
+	var global_pos = %CollisionShape2D.global_position
+	var size = %CollisionShape2D.shape.size
+	var pos = Vector2(global_pos.x - size.x / 2, global_pos.y - size.y / 2)
+	return {
+		"top": pos.y,
+		"right": pos.x,
+		"bottom": pos.y + size.y,
+		"left": pos.x + size.x,
+	}
+
 func set_is_moving() -> void:
 	if scored:
 		return
-	
-	if is_moving && Input.is_action_just_released("left_click"):
-		emit_signal("finished_moving", self, placed)
-		Globals.selected_tile = null
-		z_index = 1
-		is_moving = false
-		_show_letter_selection()
-	elif !is_moving && Input.is_action_just_pressed("left_click") && mouse_over:
-		placed = false
-		Globals.selected_tile = self
-		z_index = 2
-		is_moving = true
-		emit_signal("started_moving", self)
+
+	if is_moving and Input.is_action_just_released("left_click"):
+		end_move()
+	elif !is_moving and Input.is_action_just_pressed("left_click"):
+		start_move()
+
+func start_move() -> void:
+	if !_is_mouse_over():
+		return
+
+	placed = false
+	Globals.selected_tile = self
+	z_index = 2
+	is_moving = true
+	emit_signal("started_moving", self)
+
+func end_move() -> void:
+	emit_signal("finished_moving", self, placed)
+	Globals.selected_tile = null
+	z_index = 1
+	is_moving = false
+	_show_letter_selection()
 
 func update_position(delta: float) -> void:
 	if !is_moving || scored:
@@ -89,17 +108,15 @@ func update_position(delta: float) -> void:
 	position += velocity * delta
 
 func _show_letter_selection() -> void:
-	if VALUE != 0 || !placed:
+	if VALUE != 0 or !placed:
 		return
 	
 	is_moving = false
-	mouse_over = false
 	var letter_picker = LetterPicker.instantiate()
 	letter_picker.initialize(self)
 	add_sibling(letter_picker)
 
-func _on_area_2d_mouse_entered() -> void:
-	mouse_over = true
-
-func _on_area_2d_mouse_exited() -> void:
-	mouse_over = false
+func _is_mouse_over() -> bool:
+	var mouse = get_global_mouse_position()
+	var bounds = get_bounds()
+	return mouse.x > bounds.right and mouse.y > bounds.top and mouse.x < bounds.left and mouse.y < bounds.bottom
