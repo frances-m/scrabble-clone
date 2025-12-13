@@ -93,8 +93,6 @@ class ScoreCalculator:
 		var compare_row = tiles[0].square.row
 		var compare_col = tiles[0].square.col
 		
-		# TODO: we will get the wrong shared row if there's
-		# only one tile placed above or below existing tiles
 		var share_row = tiles.all(func(tile): return tile.square.row == compare_row)
 		var share_col = tiles.all(func(tile): return tile.square.col == compare_col)
 		
