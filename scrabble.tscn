@@ -8,23 +8,28 @@
 
 [node name="Scrabble" type="Node2D"]
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1919.0
+offset_bottom = 1080.0
+color = Color(0.15267, 0.225746, 0.174543, 1)
+
 [node name="GameBoard" parent="." instance=ExtResource("2_xtowr")]
 position = Vector2(543, 517)
 
 [node name="Player1Rack" parent="." instance=ExtResource("2_pbdxk")]
-position = Vector2(1453, 1008)
+position = Vector2(1351, 1017)
 metadata/player = 1
 
 [node name="Player2Rack" parent="." instance=ExtResource("2_pbdxk")]
-position = Vector2(1453, 1008)
+position = Vector2(1351, 1017)
 metadata/player = 2
 
 [node name="SubmitButton" parent="." instance=ExtResource("3_pbdxk")]
-position = Vector2(1736, 981)
+position = Vector2(1739, 987)
 
 [node name="RecallButton" parent="." instance=ExtResource("4_pmtqc")]
 unique_name_in_owner = true
-position = Vector2(1739, 896)
+position = Vector2(1739, 917)
 
 [node name="WordList" parent="." instance=ExtResource("5_pmtqc")]
 offset_left = 1102.0
