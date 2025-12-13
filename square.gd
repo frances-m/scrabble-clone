@@ -2,7 +2,7 @@ extends Node2D
 
 var TYPES: Dictionary = {
 	"BS": { "color": "#fcdbae" },
-	"SS": { "color": "#fcaeae" },
+	"SS": { "color": "#fcaeae", "mult": 2, "type": "word" },
 	"3W": { "color": "#e322e0", "mult": 3, "type": "word" },
 	"2W": { "color": "#fcaefb", "mult": 2, "type": "word" },
 	"3L": { "color": "#224fe3", "mult": 3, "type": "letter" },
