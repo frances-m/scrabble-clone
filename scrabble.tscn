@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://c0dtwaassli2a" path="res://rack.tscn" id="2_pbdxk"]
 [ext_resource type="PackedScene" uid="uid://cgtso5mntix66" path="res://game_board.tscn" id="2_xtowr"]
 [ext_resource type="PackedScene" uid="uid://ctbn7g46l8ifn" path="res://submit_button.tscn" id="3_pbdxk"]
-[ext_resource type="PackedScene" uid="uid://camdjstu0b8b6" path="res://score.tscn" id="4_4etum"]
 [ext_resource type="PackedScene" uid="uid://cmbf5nwii4hob" path="res://recall_button.tscn" id="4_pmtqc"]
+[ext_resource type="PackedScene" uid="uid://yrax2celpdki" path="res://word_list.tscn" id="5_pmtqc"]
 
 [node name="Scrabble" type="Node2D"]
 
@@ -26,16 +26,16 @@ position = Vector2(1736, 981)
 unique_name_in_owner = true
 position = Vector2(1739, 896)
 
-[node name="Player1Score" parent="." instance=ExtResource("4_4etum")]
-offset_left = 1681.0
+[node name="WordList" parent="." instance=ExtResource("5_pmtqc")]
+offset_left = 1085.0
 offset_top = 37.0
-offset_right = 1681.0
+offset_right = 1085.0
 offset_bottom = 37.0
 metadata/player = 1
 
-[node name="Player2Score" parent="." instance=ExtResource("4_4etum")]
-offset_left = 1681.0
-offset_top = 116.0
-offset_right = 1681.0
-offset_bottom = 116.0
+[node name="WordList2" parent="." instance=ExtResource("5_pmtqc")]
+offset_left = 1492.0
+offset_top = 37.0
+offset_right = 1492.0
+offset_bottom = 37.0
 metadata/player = 2

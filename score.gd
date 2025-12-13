@@ -1,5 +1,7 @@
 extends Control
 
+var player: int = 0
+
 func _ready() -> void:
 	Scorer.connect("score_updated", Callable(self, "update_score"))
 

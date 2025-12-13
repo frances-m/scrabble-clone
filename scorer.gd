@@ -10,23 +10,26 @@ var player_scores: Dictionary = {
 @onready var WORD_LIST = load_word_list()
 
 signal score_updated()
+signal word_played(word: String, word_score: int)
 
 func run(pending_tiles: Array) -> bool:
 	var score_calculator: ScoreCalculator = ScoreCalculator.new(pending_tiles)
-	
+
 	var errors: Array = score_calculator.get_errors()
 	if errors.size():
 		for error in errors:
 			print(error)
 		return false
-	
+
+	var word = score_calculator.get_word()
 	var word_score = score_calculator.get_score()
 	var player = Globals.current_player
 	player_scores[player] += word_score
-	
+
+	emit_signal("word_played", word, word_score)
 	emit_signal("score_updated")
 	first_move = false
-	
+
 	return true
 
 func load_word_list() -> Array:
@@ -37,13 +40,13 @@ func load_word_list() -> Array:
 class ScoreCalculator:
 	var tiles: Array = []
 	var parallel_axis: String = ""
-	
+
 	#validation flags
 	var has_gap: bool = false
 	var touches_existing_tile: bool = false
 	var on_starting_square: bool = false
 	var errors: Array = []
-	
+
 	# score 
 	var letters: Array = []
 	var perpendicular_words: Array = []
@@ -53,13 +56,16 @@ class ScoreCalculator:
 	func _init(pending_tiles: Array) -> void:
 		tiles = pending_tiles
 		calculate_score()
-	
+
 	func calculate_score() -> void:
 		validate_length()
 		calculate_word_direction()
 		sort_tiles()
 		score_tiles()
 		validate_word()
+	
+	func get_word() -> String:
+		return "".join(letters)
 
 	func get_score() -> int:
 		var score = score_tally * word_multiplier
