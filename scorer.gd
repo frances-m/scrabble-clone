@@ -154,28 +154,32 @@ class ScoreCalculator:
 				score_tally += existing_tile.get_value()
 	
 	func score_perpendicular_tiles(placed_tile: Sprite2D) -> void:
-		var tiles_above = score_tiles_in_front(placed_tile, parallel_axis)
-		var tiles_below = score_tiles_behind(placed_tile, parallel_axis)
+		var tiles_above = score_tiles_in_front(placed_tile, false, parallel_axis)
+		var tiles_below = score_tiles_behind(placed_tile, false, parallel_axis)
 		if tiles_above.size() || tiles_below.size():
 			var word = tiles_above
 			word.append(placed_tile.get_tile_letter())
 			word.append_array(tiles_below)
 			perpendicular_words.append("".join(word))
 	
-	func score_tiles_in_front(tile: Sprite2D, axis = perpendicular_axis()) -> Array:
+	func score_tiles_in_front(tile: Sprite2D, parallel: bool = true, axis = perpendicular_axis()) -> Array:
 		var tile_pos = tile.square[axis]
 		var rnge = range(tile_pos - 1, -1, -1)
-		return score_tiles_adjacent_to(tile, rnge, false)
+		return score_tiles_adjacent_to(tile, rnge, parallel, false)
 	
-	func score_tiles_behind(tile: Sprite2D, axis = perpendicular_axis()) -> Array:
+	func score_tiles_behind(tile: Sprite2D, parallel: bool = true, axis = perpendicular_axis()) -> Array:
 		var tile_pos = tile.square[axis]
 		var rnge = range(tile_pos + 1, 15, 1)
-		return score_tiles_adjacent_to(tile, rnge)
+		return score_tiles_adjacent_to(tile, rnge, parallel)
 	
-	func score_tiles_adjacent_to(tile: Sprite2D, rnge, after: bool = true) -> Array:
+	func score_tiles_adjacent_to(tile: Sprite2D, rnge, parallel: bool = true, after: bool = true) -> Array:
 		var new_letters = []
 		for i in rnge:
-			var existing_tile = get_existing_parallel_tile(i, tile.square)
+			var existing_tile
+			if parallel:
+				existing_tile = get_existing_parallel_tile(i, tile.square)
+			else:
+				existing_tile = get_existing_perpendicular_tile(i, tile.square)
 			if !existing_tile:
 				break
 			touches_existing_tile = true
@@ -187,6 +191,11 @@ class ScoreCalculator:
 			new_letters.reverse()
 
 		return new_letters
+	
+	func get_existing_perpendicular_tile(pos: int, tile_pos: Node2D) -> Sprite2D:
+		var row: int = pos if is_horizontal() else tile_pos.row
+		var col: int = pos if is_vertical() else tile_pos.col
+		return BoardState.get_tile_at(row, col)
 	
 	func get_existing_parallel_tile(pos: int, tile_pos: Node2D) -> Sprite2D:
 		var row: int = pos if is_vertical() else tile_pos.row
