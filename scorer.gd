@@ -51,7 +51,7 @@ class ScoreCalculator:
 	var letters: Array = []
 	var perpendicular_words: Array = []
 	var score_tally: int = 0
-	var word_multiplier: int = 1
+	var word_multiplier: int = 0
 
 	func _init(pending_tiles: Array) -> void:
 		tiles = pending_tiles
@@ -68,10 +68,13 @@ class ScoreCalculator:
 		return "".join(letters)
 
 	func get_score() -> int:
-		var score = score_tally * word_multiplier
+		var score = score_tally * get_mult()
 		if tiles.size() == 7:
 			score += 50
 		return score
+	
+	func get_mult() -> int:
+		return word_multiplier if word_multiplier > 0 else 1
 	
 	func get_errors() -> Array:
 		return errors
