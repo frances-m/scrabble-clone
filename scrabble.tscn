@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://1wv1877ickdx"]
+[gd_scene load_steps=8 format=3 uid="uid://1wv1877ickdx"]
 
 [ext_resource type="PackedScene" uid="uid://c0dtwaassli2a" path="res://rack.tscn" id="2_pbdxk"]
 [ext_resource type="PackedScene" uid="uid://cgtso5mntix66" path="res://game_board.tscn" id="2_xtowr"]
 [ext_resource type="PackedScene" uid="uid://ctbn7g46l8ifn" path="res://submit_button.tscn" id="3_pbdxk"]
 [ext_resource type="PackedScene" uid="uid://cmbf5nwii4hob" path="res://recall_button.tscn" id="4_pmtqc"]
+[ext_resource type="PackedScene" uid="uid://bgndkiyxusnyi" path="res://swap_button.tscn" id="5_m3g3k"]
 [ext_resource type="PackedScene" uid="uid://yrax2celpdki" path="res://word_list.tscn" id="5_pmtqc"]
+[ext_resource type="PackedScene" uid="uid://dmdfmepu5tavh" path="res://skip_button.tscn" id="6_cxpoa"]
 
 [node name="Scrabble" type="Node2D"]
 
@@ -25,11 +27,18 @@ position = Vector2(1351, 1017)
 metadata/player = 2
 
 [node name="SubmitButton" parent="." instance=ExtResource("3_pbdxk")]
-position = Vector2(1739, 987)
+position = Vector2(1635, 987)
+
+[node name="SkipButton" parent="." instance=ExtResource("6_cxpoa")]
+unique_name_in_owner = true
+position = Vector2(1739, 627)
+
+[node name="SwapButton" parent="." instance=ExtResource("5_m3g3k")]
+position = Vector2(1739, 713)
 
 [node name="RecallButton" parent="." instance=ExtResource("4_pmtqc")]
 unique_name_in_owner = true
-position = Vector2(1739, 917)
+position = Vector2(1739, 799)
 
 [node name="WordList" parent="." instance=ExtResource("5_pmtqc")]
 offset_left = 1102.0
