@@ -2,7 +2,7 @@ extends Control
 
 var TILE_GAP: int = 10
 
-var TileButton = preload("res://tile_swap_button.tscn")
+var TileButton = preload("res://scenes/swap_selection/tile_swap_button/tile_swap_button.tscn")
 
 var tiles: Array[Sprite2D] = []
 var selected_tiles: Array[Sprite2D] = []

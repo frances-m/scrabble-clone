@@ -6,7 +6,7 @@ var TILE_GAP: float = 10.0
 
 var tiles: Array[Sprite2D] = []
 
-var SwapSelector = preload("res://swap_selection.tscn")
+var SwapSelector = preload("res://scenes/swap_selection/swap_selection.tscn")
 
 @onready var player: int = get_meta("player", 0)
 @onready var recall_button: Node2D = get_parent().get_node("%RecallButton")

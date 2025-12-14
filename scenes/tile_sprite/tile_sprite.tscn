@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d2qaudlv1p43o"]
 
-[ext_resource type="Script" uid="uid://4po8nyik6p56" path="res://tile_sprite.gd" id="1_385rl"]
+[ext_resource type="Script" uid="uid://4po8nyik6p56" path="res://scenes/tile_sprite/tile_sprite.gd" id="1_385rl"]
 
 [sub_resource type="SystemFont" id="SystemFont_tph7k"]
 subpixel_positioning = 0

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dmdfmepu5tavh"]
 
-[ext_resource type="Script" uid="uid://bo0d42dkx7uxs" path="res://skip_button.gd" id="1_8jkkd"]
+[ext_resource type="Script" uid="uid://bo0d42dkx7uxs" path="res://scenes/buttons/skip_button/skip_button.gd" id="1_8jkkd"]
 
 [node name="SkipButton" type="Node2D"]
 script = ExtResource("1_8jkkd")

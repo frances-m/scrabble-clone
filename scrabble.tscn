@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://1wv1877ickdx"]
 
-[ext_resource type="PackedScene" uid="uid://c0dtwaassli2a" path="res://rack.tscn" id="2_pbdxk"]
-[ext_resource type="PackedScene" uid="uid://cgtso5mntix66" path="res://game_board.tscn" id="2_xtowr"]
-[ext_resource type="PackedScene" uid="uid://ctbn7g46l8ifn" path="res://submit_button.tscn" id="3_pbdxk"]
-[ext_resource type="PackedScene" uid="uid://cmbf5nwii4hob" path="res://recall_button.tscn" id="4_pmtqc"]
-[ext_resource type="PackedScene" uid="uid://bgndkiyxusnyi" path="res://swap_button.tscn" id="5_m3g3k"]
-[ext_resource type="PackedScene" uid="uid://yrax2celpdki" path="res://word_list.tscn" id="5_pmtqc"]
-[ext_resource type="PackedScene" uid="uid://dmdfmepu5tavh" path="res://skip_button.tscn" id="6_cxpoa"]
+[ext_resource type="PackedScene" uid="uid://c0dtwaassli2a" path="res://scenes/rack/rack.tscn" id="2_pbdxk"]
+[ext_resource type="PackedScene" uid="uid://cgtso5mntix66" path="res://scenes/game_board/game_board.tscn" id="2_xtowr"]
+[ext_resource type="PackedScene" uid="uid://ctbn7g46l8ifn" path="res://scenes/buttons/submit_button/submit_button.tscn" id="3_pbdxk"]
+[ext_resource type="PackedScene" uid="uid://cmbf5nwii4hob" path="res://scenes/buttons/recall_button/recall_button.tscn" id="4_pmtqc"]
+[ext_resource type="PackedScene" uid="uid://bgndkiyxusnyi" path="res://scenes/buttons/swap_button/swap_button.tscn" id="5_m3g3k"]
+[ext_resource type="PackedScene" uid="uid://yrax2celpdki" path="res://scenes/word_list/word_list.tscn" id="5_pmtqc"]
+[ext_resource type="PackedScene" uid="uid://dmdfmepu5tavh" path="res://scenes/buttons/skip_button/skip_button.tscn" id="6_cxpoa"]
 
 [node name="Scrabble" type="Node2D"]
 

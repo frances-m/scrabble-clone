@@ -1,8 +1,8 @@
 extends Node2D
 
-var Square = preload("res://square.tscn")
+var Square = preload("res://scenes/game_board/square/square.tscn")
 
-var JSON_PATH: String = "res://squares.json"
+var JSON_PATH: String = "res://config/squares.json"
 
 func _ready() -> void:
 	_place_squares()

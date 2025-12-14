@@ -33,7 +33,7 @@ func run(pending_tiles: Array) -> bool:
 	return true
 
 func load_word_list() -> Array:
-	var path = "res://words.txt"
+	var path = "res://config/words.txt"
 	var words = FileAccess.get_file_as_string(path)
 	return words.split("\n")
 

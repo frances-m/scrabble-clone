@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://camdjstu0b8b6"]
 
-[ext_resource type="Script" uid="uid://cm0axl3agc4lv" path="res://score.gd" id="1_t1x8i"]
+[ext_resource type="Script" uid="uid://cm0axl3agc4lv" path="res://scenes/word_list/score/score.gd" id="1_t1x8i"]
 
 [node name="Score" type="Control"]
 layout_direction = 2

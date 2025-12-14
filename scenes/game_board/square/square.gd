@@ -56,9 +56,6 @@ func get_color() -> Color:
 	return Color.html(TYPES[type]["color"])
 
 func _on_area_2d_mouse_entered() -> void:
-	#if tile:
-		#tile.visible = true
-		#print(tile.get_tile_letter())
 	mouse_over = true
 	var color = get_color().lightened(0.4)
 	set_color(color)

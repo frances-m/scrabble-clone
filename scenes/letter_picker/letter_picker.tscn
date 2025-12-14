@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dfo5vi3hp77fq"]
 
-[ext_resource type="Script" uid="uid://d1fujuvdw6t4d" path="res://letter_picker.gd" id="1_4k861"]
+[ext_resource type="Script" uid="uid://d1fujuvdw6t4d" path="res://scenes/letter_picker/letter_picker.gd" id="1_4k861"]
 
 [node name="LetterPicker" type="Control"]
 z_index = 5

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ctbn7g46l8ifn"]
 
-[ext_resource type="Script" uid="uid://dmrsn4q8vrybx" path="res://submit_button.gd" id="1_rftfm"]
+[ext_resource type="Script" uid="uid://dmrsn4q8vrybx" path="res://scenes/buttons/submit_button/submit_button.gd" id="1_rftfm"]
 
 [node name="SubmitButton" type="Node2D"]
 script = ExtResource("1_rftfm")

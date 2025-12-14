@@ -6,7 +6,7 @@ var VALUE: int = 0
 var MAX_SPEED: float = 40.0
 var TILE_SIZE: float = 0.0
 
-var LetterPicker = preload("res://letter_picker.tscn")
+var LetterPicker = preload("res://scenes/letter_picker/letter_picker.tscn")
 
 var is_moving: bool = false
 var velocity: Vector2 = Vector2(0, 0)

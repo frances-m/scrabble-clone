@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cmbf5nwii4hob"]
 
-[ext_resource type="Script" uid="uid://bw8ja1ssstfyy" path="res://recall_button.gd" id="1_20o6s"]
+[ext_resource type="Script" uid="uid://bw8ja1ssstfyy" path="res://scenes/buttons/recall_button/recall_button.gd" id="1_20o6s"]
 
 [node name="RecallButton" type="Node2D"]
 script = ExtResource("1_20o6s")

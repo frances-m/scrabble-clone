@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://dyq757neavery"]
 
-[ext_resource type="Script" uid="uid://dcgykcqtabpp8" path="res://tile_button.gd" id="1_uktjd"]
+[ext_resource type="Script" uid="uid://dcgykcqtabpp8" path="res://scenes/letter_picker/tile_button/tile_button.gd" id="1_uktjd"]
 
 [sub_resource type="SystemFont" id="SystemFont_tph7k"]
 subpixel_positioning = 0

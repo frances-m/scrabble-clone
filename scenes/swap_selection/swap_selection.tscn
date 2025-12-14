@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://u1w4nvni0cpn"]
 
-[ext_resource type="Script" uid="uid://go5tdj16iqq1" path="res://swap_selection.gd" id="1_nqb1h"]
+[ext_resource type="Script" uid="uid://go5tdj16iqq1" path="res://scenes/swap_selection/swap_selection.gd" id="1_nqb1h"]
 
 [node name="SwapSelection" type="Control"]
 z_index = 5

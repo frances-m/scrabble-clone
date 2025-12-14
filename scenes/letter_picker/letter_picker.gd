@@ -10,7 +10,7 @@ var LETTERS: Array[String] = [
 	"Y", "Z"
 ]
 
-var TileButton = preload("res://tile_button.tscn")
+var TileButton = preload("res://scenes/letter_picker/tile_button/tile_button.tscn")
 
 var tile: Sprite2D = null
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://dx3gk11nliyt3"]
 
-[ext_resource type="Script" uid="uid://dg5r1bg5f3vbu" path="res://tile_swap_button.gd" id="1_3alad"]
+[ext_resource type="Script" uid="uid://dg5r1bg5f3vbu" path="res://scenes/swap_selection/tile_swap_button/tile_swap_button.gd" id="1_3alad"]
 
 [sub_resource type="SystemFont" id="SystemFont_tph7k"]
 subpixel_positioning = 0

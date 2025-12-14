@@ -1,8 +1,8 @@
 extends Node
 
-var Tile = preload("res://tile_sprite.tscn")
+var Tile = preload("res://scenes/tile_sprite/tile_sprite.tscn")
 
-var JSON_PATH: String = "res://tile_bag.json"
+var JSON_PATH: String = "res://config/tile_bag.json"
 
 var tile_bag: Array[Sprite2D] = []
 

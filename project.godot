@@ -17,10 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-TileBag="*res://tile_bag.gd"
-Globals="*res://globals.gd"
-BoardState="*res://board_state.gd"
-Scorer="*res://scorer.gd"
+TileBag="*res://globals/tile_bag.gd"
+Globals="*res://globals/globals.gd"
+BoardState="*res://globals/board_state.gd"
+Scorer="*res://globals/scorer.gd"
 
 [display]
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://yrax2celpdki"]
 
-[ext_resource type="Script" uid="uid://c6tuyagrvgl22" path="res://word_list.gd" id="1_bx6qc"]
-[ext_resource type="PackedScene" uid="uid://camdjstu0b8b6" path="res://score.tscn" id="1_e5mbd"]
+[ext_resource type="Script" uid="uid://c6tuyagrvgl22" path="res://scenes/word_list/word_list.gd" id="1_bx6qc"]
+[ext_resource type="PackedScene" uid="uid://camdjstu0b8b6" path="res://scenes/word_list/score/score.tscn" id="1_e5mbd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bx6qc"]
 font_size = 30
