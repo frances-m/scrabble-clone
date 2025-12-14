@@ -23,6 +23,7 @@ func _process(_delta: float) -> void:
 
 func place_tile() -> void:
 	if tile:
+		tile.visible = true
 		return
 
 	var selected_tile = Globals.selected_tile
@@ -55,6 +56,9 @@ func get_color() -> Color:
 	return Color.html(TYPES[type]["color"])
 
 func _on_area_2d_mouse_entered() -> void:
+	#if tile:
+		#tile.visible = true
+		#print(tile.get_tile_letter())
 	mouse_over = true
 	var color = get_color().lightened(0.4)
 	set_color(color)
@@ -62,4 +66,3 @@ func _on_area_2d_mouse_entered() -> void:
 func _on_area_2d_mouse_exited() -> void:
 	mouse_over = false
 	set_color()
-	

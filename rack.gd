@@ -8,17 +8,16 @@ var tiles: Array = []
 
 @onready var player: int = get_meta("player", 0)
 @onready var recall_button: Node2D = get_parent().get_node("%RecallButton")
+@onready var skip_button: Node2D = get_parent().get_node("%SkipButton")
 
 func _ready() -> void:
-	if player == 1:
-		draw_tiles()
-	else:
-		visible = false
+	_on_player_change()
 	_init_listeners()
 
 func _init_listeners() -> void:
-	BoardState.connect("tiles_scored", Callable(self, "_on_tiles_scored"))
+	Globals.connect("change_player", Callable(self, "_on_player_change"))
 	recall_button.connect("clicked", Callable(self, "_recall_tiles"))
+	skip_button.connect("clicked", Callable(self, "_recall_tiles"))
 
 func draw_tiles() -> void:
 	var tiles_to_draw: int = MAX_TILES - tiles.size()
@@ -51,13 +50,26 @@ func position_tiles() -> void:
 		tile.position = tile_position
 		tile_position.x += Globals.tile_size + TILE_GAP
 
-func _on_tiles_scored() -> void:
-	var is_player_turn: bool = Globals.current_player == player
-	visible = is_player_turn
+func _disable() -> void:
+	process_mode = Node.PROCESS_MODE_DISABLED
+	visible = false
 	for tile in tiles:
-		tile.visible = is_player_turn
-	if is_player_turn:
+		tile.visible = false
+		tile.process_mode = Node.PROCESS_MODE_DISABLED
+
+func _enable() -> void:
+	process_mode = Node.PROCESS_MODE_INHERIT
+	visible = true
+	for tile in tiles:
+		tile.process_mode = Node.PROCESS_MODE_INHERIT
+		tile.visible = true
+
+func _on_player_change() -> void:
+	if Globals.current_player == player:
+		_enable()
 		draw_tiles()
+	else: 
+		_disable()
 
 func _on_tile_finished_moving(tile: Sprite2D, placed: bool) -> void:
 	if placed:

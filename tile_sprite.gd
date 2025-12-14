@@ -64,7 +64,7 @@ func set_is_moving() -> void:
 		start_move()
 
 func start_move() -> void:
-	if !_is_mouse_over():
+	if !_is_mouse_over() and visible:
 		return
 
 	placed = false
