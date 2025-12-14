@@ -3,8 +3,6 @@ extends Node
 var board: Array = []
 var pending_tiles: Array = []
 
-signal tiles_scored()
-
 func _ready() -> void:
 	initialize_board()
 
@@ -47,7 +45,6 @@ func score_pending() -> void:
 	
 	pending_tiles = []
 	Globals.switch_player()
-	emit_signal("tiles_scored")
 
 func initialize_board() -> void:
 	for i in range(0, 15):
