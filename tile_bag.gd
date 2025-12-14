@@ -13,6 +13,9 @@ func draw_tile() -> Sprite2D:
 	var tile_idx = randi_range(0, tile_bag.size() - 1)
 	return tile_bag.pop_at(tile_idx)
 
+func return_tile(tile: Sprite2D) -> void:
+	tile_bag.append(tile)
+
 func _init_tiles() -> void:
 	var tile_data: Array = _load_tile_data()
 	for tile in tile_data:

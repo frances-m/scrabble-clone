@@ -42,7 +42,6 @@ func _render_buttons() -> void:
 		add_child.call_deferred(button)
 		
 		x += Globals.tile_size + TILE_GAP
-	
 
 func _on_letter_select(letter: String) -> void:
 	tile.set_tile_letter(letter)

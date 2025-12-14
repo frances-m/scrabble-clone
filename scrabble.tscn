@@ -34,6 +34,7 @@ unique_name_in_owner = true
 position = Vector2(1739, 627)
 
 [node name="SwapButton" parent="." instance=ExtResource("5_m3g3k")]
+unique_name_in_owner = true
 position = Vector2(1739, 713)
 
 [node name="RecallButton" parent="." instance=ExtResource("4_pmtqc")]

@@ -107,6 +107,12 @@ func update_position(delta: float) -> void:
 	velocity = direction * speed
 	position += velocity * delta
 
+func disconnect_signals() -> void:
+	var signal_list = ["started_moving", "finished_moving"]
+	for s in signal_list:
+		for c in get_signal_connection_list(s):
+			disconnect(s, c.callable)
+
 func _show_letter_selection() -> void:
 	if VALUE != 0 or !placed:
 		return

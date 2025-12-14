@@ -4,11 +4,14 @@ var MAX_TILES: int = 7
 var LETTERS: Array = []
 var TILE_GAP: float = 10.0
 
-var tiles: Array = []
+var tiles: Array[Sprite2D] = []
+
+var SwapSelector = preload("res://swap_selection.tscn")
 
 @onready var player: int = get_meta("player", 0)
 @onready var recall_button: Node2D = get_parent().get_node("%RecallButton")
 @onready var skip_button: Node2D = get_parent().get_node("%SkipButton")
+@onready var swap_button: Node2D = get_parent().get_node("%SwapButton")
 
 func _ready() -> void:
 	_on_player_change()
@@ -18,6 +21,7 @@ func _init_listeners() -> void:
 	Globals.connect("change_player", Callable(self, "_on_player_change"))
 	recall_button.connect("clicked", Callable(self, "_recall_tiles"))
 	skip_button.connect("clicked", Callable(self, "_recall_tiles"))
+	swap_button.connect("clicked", Callable(self, "_swap_tiles"))
 
 func draw_tiles() -> void:
 	var tiles_to_draw: int = MAX_TILES - tiles.size()
@@ -88,4 +92,25 @@ func _recall_tiles() -> void:
 	var placed_tiles = BoardState.remove_all_from_pending()
 	for tile in placed_tiles:
 		tiles.append(tile)
+
 	position_tiles()
+
+func _swap_tiles() -> void:
+	if Globals.current_player != player:
+		return
+	
+	_recall_tiles()
+
+	var swap_selector = SwapSelector.instantiate()
+	swap_selector.initialize(tiles)
+	swap_selector.connect("tiles_selected", Callable(self, "_swap_selected_tiles"))
+	get_parent().add_sibling(swap_selector)
+
+func _swap_selected_tiles(selected_tiles: Array[Sprite2D]) -> void:
+	for selected_tile in selected_tiles:
+		var idx = tiles.find(selected_tile)
+		tiles.pop_at(idx)
+		selected_tile.disconnect_signals()
+		get_parent().remove_child(selected_tile)
+		TileBag.return_tile(selected_tile)
+	Globals.switch_player()
