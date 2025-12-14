@@ -52,6 +52,7 @@ class ScoreCalculator:
 	var perpendicular_words: Array = []
 	var score_tally: int = 0
 	var word_multiplier: int = 0
+	var final_score: int = 0
 
 	func _init(pending_tiles: Array) -> void:
 		tiles = pending_tiles
@@ -63,15 +64,13 @@ class ScoreCalculator:
 		sort_tiles()
 		score_tiles()
 		validate_word()
+		calculate_final_score()
 	
 	func get_word() -> String:
 		return "".join(letters)
 
 	func get_score() -> int:
-		var score = score_tally * get_mult()
-		if tiles.size() == 7:
-			score += 50
-		return score
+		return final_score
 	
 	func get_mult() -> int:
 		return word_multiplier if word_multiplier > 0 else 1
@@ -110,6 +109,18 @@ class ScoreCalculator:
 		
 		parallel_axis = "row" if share_row else "col"
 
+	func calculate_final_score() -> void:
+		if final_score:
+			return
+
+		final_score = score_tally * get_mult()
+
+		for word in perpendicular_words:
+			final_score += word.score * word.mult
+
+		if tiles.size() == 7:
+			final_score += 50
+
 	func sort_tiles() -> void:
 		if has_errors():
 			return
@@ -119,8 +130,8 @@ class ScoreCalculator:
 		if has_errors():
 			return
 
-		var letters_in_front = score_tiles_in_front(tiles[0])
-		letters.append_array(letters_in_front)
+		var tiles_in_front = get_tiles_in_front(tiles[0])
+		score_existing_parallel_tiles(tiles_in_front)
 
 		var last_tile_pos: int = -1
 		for tile in tiles:
@@ -132,8 +143,8 @@ class ScoreCalculator:
 			if tile.square.type == "SS":
 				on_starting_square = true
 
-		var letters_behind = score_tiles_behind(tiles[-1])
-		letters.append_array(letters_behind)
+		var tiles_behind = get_tiles_behind(tiles[-1])
+		score_existing_parallel_tiles(tiles_behind)
 
 	func score_tile(tile: Sprite2D) -> void:
 		letters.append(tile.get_tile_letter())
@@ -147,7 +158,7 @@ class ScoreCalculator:
 	
 	func score_tiles_between(last_tile_pos, tile) -> void:
 		var tile_pos = tile.square[perpendicular_axis()]
-		if last_tile_pos == -1 || tile_pos == last_tile_pos + 1:
+		if last_tile_pos == -1 or tile_pos == last_tile_pos + 1:
 			return
 
 		for i in range(last_tile_pos + 1, tile_pos):
@@ -161,26 +172,33 @@ class ScoreCalculator:
 				score_tally += existing_tile.get_value()
 	
 	func score_perpendicular_tiles(placed_tile: Sprite2D) -> void:
-		var tiles_above = score_tiles_in_front(placed_tile, false, parallel_axis)
-		var tiles_below = score_tiles_behind(placed_tile, false, parallel_axis)
-		if tiles_above.size() || tiles_below.size():
-			var word = tiles_above
-			word.append(placed_tile.get_tile_letter())
-			word.append_array(tiles_below)
-			perpendicular_words.append("".join(word))
+		var tiles_above = get_tiles_in_front(placed_tile, false, parallel_axis)
+		var tiles_below = get_tiles_behind(placed_tile, false, parallel_axis)
+		if tiles_above.size() or tiles_below.size():
+			var square = placed_tile.square
+			var mult = square.get_mult() if square.get_mult_type() == "word" else 1
+			var word = {
+				"mult": mult,
+				"letters": [],
+				"score": 0
+			}
+			score_existing_perpendicular_tiles(tiles_above, word)
+			word.letters.append(placed_tile.get_tile_letter())
+			score_existing_perpendicular_tiles(tiles_below, word)
+			perpendicular_words.append(word)
 	
-	func score_tiles_in_front(tile: Sprite2D, parallel: bool = true, axis = perpendicular_axis()) -> Array:
+	func get_tiles_in_front(tile: Sprite2D, parallel: bool = true, axis = perpendicular_axis()) -> Array:
 		var tile_pos = tile.square[axis]
 		var rnge = range(tile_pos - 1, -1, -1)
-		return score_tiles_adjacent_to(tile, rnge, parallel, false)
+		return get_tiles_adjacent_to(tile, rnge, parallel, false)
 	
-	func score_tiles_behind(tile: Sprite2D, parallel: bool = true, axis = perpendicular_axis()) -> Array:
+	func get_tiles_behind(tile: Sprite2D, parallel: bool = true, axis = perpendicular_axis()) -> Array:
 		var tile_pos = tile.square[axis]
 		var rnge = range(tile_pos + 1, 15, 1)
-		return score_tiles_adjacent_to(tile, rnge, parallel)
+		return get_tiles_adjacent_to(tile, rnge, parallel)
 	
-	func score_tiles_adjacent_to(tile: Sprite2D, rnge, parallel: bool = true, after: bool = true) -> Array:
-		var new_letters = []
+	func get_tiles_adjacent_to(tile: Sprite2D, rnge, parallel: bool = true, after: bool = true) -> Array:
+		var adjacent_tiles = []
 		for i in rnge:
 			var existing_tile
 			if parallel:
@@ -190,25 +208,33 @@ class ScoreCalculator:
 			if !existing_tile:
 				break
 			touches_existing_tile = true
-			var letter = existing_tile.get_tile_letter()
-			new_letters.push_front(letter)
-			score_tally += existing_tile.get_value()
+			adjacent_tiles.push_front(existing_tile)
 
 		if after:
-			new_letters.reverse()
+			adjacent_tiles.reverse()
 
-		return new_letters
+		return adjacent_tiles
 	
 	func get_existing_perpendicular_tile(pos: int, tile_pos: Node2D) -> Sprite2D:
 		var row: int = pos if is_horizontal() else tile_pos.row
 		var col: int = pos if is_vertical() else tile_pos.col
 		return BoardState.get_tile_at(row, col)
-	
+
 	func get_existing_parallel_tile(pos: int, tile_pos: Node2D) -> Sprite2D:
 		var row: int = pos if is_vertical() else tile_pos.row
 		var col: int = pos if is_horizontal() else tile_pos.col
 		return BoardState.get_tile_at(row, col)
-	
+
+	func score_existing_parallel_tiles(existing_tiles: Array) -> void:
+		for tile in existing_tiles:
+			letters.append(tile.get_tile_letter())
+			score_tally += tile.get_value()
+
+	func score_existing_perpendicular_tiles(existing_tiles: Array, word: Dictionary) -> void:
+		for tile in existing_tiles:
+			word.score += tile.get_value()
+			word.letters.append(tile.get_tile_letter())
+
 	func validate_word() -> void:
 		if has_errors():
 			return
@@ -227,7 +253,7 @@ class ScoreCalculator:
 			errors.append("INVALID WORD: " + word)
 		
 		for perpendicular_word in perpendicular_words:
-			if !is_valid_word(perpendicular_word):
+			if !is_valid_word("".join(perpendicular_word.letters)):
 				errors.append("INVALID WORD: " + perpendicular_word)
 
 	func is_valid_word(word: String) -> bool:
